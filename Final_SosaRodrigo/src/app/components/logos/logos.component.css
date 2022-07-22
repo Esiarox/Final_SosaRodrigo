@@ -1,13 +1,10 @@
-#logo-header{
+.logo-header{
     display:flex;
     align-items:center;
+    color: white;
+    font-weight: bold;
 }
 
 #logoAP{
     width: 150px;
-}
-
-#titulo{
-    color: white;
-    padding: 5px;
 }

@@ -1,3 +1,13 @@
-div{
-    background-color: rgb(66, 172, 243);
+.header{
+    background-color: rgb(66, 172, 243);  
+    display:flow-root;
+    align-items:center;
+}
+
+app-logos{
+    float: left;
+}
+
+app-redes{
+    float: right;
 }
