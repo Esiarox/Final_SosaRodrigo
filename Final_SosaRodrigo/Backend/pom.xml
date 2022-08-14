@@ -11,7 +11,7 @@
 	<groupId>com.portfolio</groupId>
 	<artifactId>esiarox</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>RES</name>
+	<name>esiarox</name>
 	<description>Portfolio para Argentina Programa</description>
 	<properties>
 		<java.version>17</java.version>
