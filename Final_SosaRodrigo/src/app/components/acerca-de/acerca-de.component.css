@@ -19,7 +19,22 @@ div{
 
 }
 
+.foto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media (min-width: 576px) {
+    #foto{
+        position: absolute;
+        border-radius: 100%;
+        width: 10%;
+        left: 3%;
+    }
+}
+
+@media (min-width: 1320px) {
     #foto{
         position: absolute;
         border-radius: 100%;
