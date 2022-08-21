@@ -16,14 +16,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  */
 public class SuperUsuario implements UserDetails{
     private String nombre;
-    private String usuario;
+    private String nombreUsuario;
     private String email;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public SuperUsuario(String nombre, String usuario, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public SuperUsuario(String nombre, String nombreUsuario, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.nombre = nombre;
-        this.usuario = usuario;
+        this.nombreUsuario = nombreUsuario;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -31,7 +31,7 @@ public class SuperUsuario implements UserDetails{
     
     public static SuperUsuario build(Usuario usuario){
         List<GrantedAuthority> authorities = usuario.getRoles().stream().map(rol -> new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());
-        return new SuperUsuario(usuario.getNombre(), usuario.getUsuario(), usuario.getEmail(),usuario.getPassword(),authorities);
+        return new SuperUsuario(usuario.getNombre(), usuario.getNombreUsuario(), usuario.getEmail(),usuario.getPassword(),authorities);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SuperUsuario implements UserDetails{
 
     @Override
     public String getUsername() {
-        return usuario;
+        return nombreUsuario;
     }
 
     @Override

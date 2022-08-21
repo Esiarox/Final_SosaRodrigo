@@ -55,11 +55,11 @@ public class AuthController {
     public ResponseEntity<?> nuevoU(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return new ResponseEntity(new MensajeController("Los campos contienen errores"),HttpStatus.BAD_REQUEST);
-        if (usuarioService.existByUsuario(nuevoUsuario.getUsuario()))
+        if (usuarioService.existByNombreUsuario(nuevoUsuario.getNombreUsuario()))
             return new ResponseEntity(new MensajeController("Este usuario ya existe"),HttpStatus.BAD_REQUEST);
         if (usuarioService.existByEmail(nuevoUsuario.getEmail()))
             return new ResponseEntity(new MensajeController("Este email ya existe"),HttpStatus.BAD_REQUEST);
-        Usuario usuario = new Usuario(nuevoUsuario.getNombre(),nuevoUsuario.getUsuario(), nuevoUsuario.getEmail(),
+        Usuario usuario = new Usuario(nuevoUsuario.getNombre(),nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(),
                 passwordEncoder.encode(nuevoUsuario.getPassword()));
         
         Set<Rol> roles = new HashSet<>();
@@ -78,7 +78,7 @@ public class AuthController {
         if (bindingResult.hasErrors())
             return new ResponseEntity(new MensajeController("Los campos contienen errores"),HttpStatus.BAD_REQUEST);
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-        loginUsuario.getUsuario(),loginUsuario.getPassword()));
+        loginUsuario.getNombreUsuario(),loginUsuario.getPassword()));
         
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateToken(authentication);

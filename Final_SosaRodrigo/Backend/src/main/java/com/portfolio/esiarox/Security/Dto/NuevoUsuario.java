@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class NuevoUsuario {
     private String nombre;
-    private String usuario;
+    private String nombreUsuario;
     private String email;
     private String password;
     private Set<String> roles = new HashSet<>();
@@ -26,12 +26,12 @@ public class NuevoUsuario {
         this.nombre = nombre;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getNombreUsuario() {
+        return nombreUsuario;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
     }
 
     public String getEmail() {
