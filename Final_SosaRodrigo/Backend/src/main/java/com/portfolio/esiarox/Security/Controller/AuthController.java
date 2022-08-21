@@ -55,9 +55,9 @@ public class AuthController {
     public ResponseEntity<?> nuevoU(@Valid @RequestBody NuevoUsuario nuevoUsuario, BindingResult bindingResult){
         if (bindingResult.hasErrors())
             return new ResponseEntity(new MensajeController("Los campos contienen errores"),HttpStatus.BAD_REQUEST);
-        if (usuarioService.existByNombreUsuario(nuevoUsuario.getNombreUsuario()))
+        if (usuarioService.existsByNombreUsuario(nuevoUsuario.getNombreUsuario()))
             return new ResponseEntity(new MensajeController("Este usuario ya existe"),HttpStatus.BAD_REQUEST);
-        if (usuarioService.existByEmail(nuevoUsuario.getEmail()))
+        if (usuarioService.existsByEmail(nuevoUsuario.getEmail()))
             return new ResponseEntity(new MensajeController("Este email ya existe"),HttpStatus.BAD_REQUEST);
         Usuario usuario = new Usuario(nuevoUsuario.getNombre(),nuevoUsuario.getNombreUsuario(), nuevoUsuario.getEmail(),
                 passwordEncoder.encode(nuevoUsuario.getPassword()));
