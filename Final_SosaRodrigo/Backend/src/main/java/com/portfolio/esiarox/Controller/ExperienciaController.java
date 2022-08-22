@@ -65,7 +65,7 @@ public class ExperienciaController {
     public ResponseEntity<?> editarExp(@PathVariable("id") int id,@RequestBody ExperienciaDto experienciaDto){
         if(!experienciaService.existsById(id))
             return new ResponseEntity(new MensajeController("La experiencia laboral no existe"), HttpStatus.BAD_REQUEST);
-        if(!experienciaService.existsByNombreExp(experienciaDto.getNombreExp()) && 
+        if(experienciaService.existsByNombreExp(experienciaDto.getNombreExp()) && 
                 experienciaService.getByNombreExp(experienciaDto.getNombreExp()).get().getId() != id)
             return new ResponseEntity(new MensajeController("La experiencia laboral no existe"), HttpStatus.BAD_REQUEST);
         if(StringUtils.isBlank(experienciaDto.getNombreExp()))
