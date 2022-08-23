@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -18,6 +17,9 @@ import { LoginComponent } from './components/login/login.component';
 import { interceptorProvider } from './services/interceptor.service';
 import { NuevaExpComponent } from './components/experiencia/nueva-exp.component';
 import { EditarExpComponent } from './components/experiencia/editar-exp.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PruebamodalComponent } from './components/experiencia/pruebamodal.component';
 
 @NgModule({
   declarations: [
@@ -34,13 +36,16 @@ import { EditarExpComponent } from './components/experiencia/editar-exp.componen
     LoginComponent,
     NuevaExpComponent,
     EditarExpComponent,
+    PruebamodalComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     NgCircleProgressModule.forRoot({}),
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [
     interceptorProvider

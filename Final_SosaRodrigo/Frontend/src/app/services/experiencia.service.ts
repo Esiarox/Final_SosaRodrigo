@@ -23,7 +23,7 @@ export class ExperienciaService {
     return this.httpClient.post<any>(this.expURL + 'crearExp', experiencia);
   }
 
-  public editar(id:number, experiencia: Experiencia): Observable<any> {
+  public editar(id:number|undefined, experiencia: Experiencia): Observable<any> {
     return this.httpClient.put<any>(this.expURL + `editar/${id}`, experiencia);
   }
 
