@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ActivatedRoute, Router } from '@angular/router';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
-
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Experiencia } from 'src/app/modelos/experiencia';
 import { ExperienciaService } from 'src/app/services/experiencia.service';
 import { TokenService } from 'src/app/services/token.service';
@@ -15,10 +13,15 @@ import { TokenService } from 'src/app/services/token.service';
 export class ExperienciaComponent implements OnInit {
   experiencias: Experiencia[] = [];
   experiencia!: Experiencia;
-  //constructor(private experienciaService: ExperienciaService, private tokenService: TokenService) { }
-  constructor(private experienciaService: ExperienciaService, private tokenService: TokenService, private activatedRouter: ActivatedRoute, private router: Router,private modalService: NgbModal) { }
-
+  closeResult: string = '';
+  nombreExp: string = '';
+  descripcion: string = '';
   isLogged = false;
+  isNew = false;
+
+  constructor(private experienciaService: ExperienciaService, private tokenService: TokenService,
+    private activatedRouter: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+
   ngOnInit(): void {
     this.cargarExperiencia();
     if (this.tokenService.getToken()) {
@@ -28,84 +31,89 @@ export class ExperienciaComponent implements OnInit {
     }
   }
 
-  cargarExperiencia():void{
-    this.experienciaService.listaExp().subscribe(data => {this.experiencias = data});
+  cargarExperiencia(): void {
+    this.experienciaService.listaExp().subscribe(data => { this.experiencias = data });
   }
 
-  xx2(exp: Experiencia): void {
-    const id = this.activatedRouter.snapshot.params['id'];
-
-    this.experienciaService.buscarExp(id).subscribe(
-      data =>{
-        this.experiencia = data;
-      }, err =>{
-        alert("Ha ocurrido un error al modificar la experiencia laboral");
-        this.router.navigate(['']);
-      }
-    )
-  }
-
-  xx(exp: Experiencia): void {
-    //const id = this.activatedRouter.snapshot.params['id'];
-
+  seleccionarExp(exp: Experiencia): void {
     this.experiencia = exp;
   }
 
-  onUpdate(): void{
-    //const id = this.activatedRouter.snapshot.params['id'];
-
-    const id = this.experiencia.id
-    this.experienciaService.editar(id, this.experiencia).subscribe(
+  onCreate(): void {
+    const exp = new Experiencia(this.nombreExp, this.descripcion);
+    this.experienciaService.crear(exp).subscribe(
       data => {
+        alert("Nueva Experiencia Laboral añadida");
         this.router.navigate(['']);
-      }, err =>{
-         alert("Ha ocurrido un error al modificar la experiencia laboral");
-         this.router.navigate(['']);
+      }, err => {
+        alert("Error al agregar la nueva Experiencia Laboral");
+        this.router.navigate(['']);
       }
     )
   }
 
-  borrar(id: number|undefined){
-    if(id != undefined){
-      this.experienciaService.borrar(id).subscribe(
+  onSubmit(): void {
+    if (this.isNew) {
+      const expe = new Experiencia(this.nombreExp, this.descripcion);
+      this.experienciaService.crear(expe).subscribe(
         data => {
-          this.cargarExperiencia();
+          alert("Nueva Experiencia Laboral añadida");
+          this.router.navigate(['']);
         }, err => {
-          alert("Ha ocurrido un error al borrar la experiencia laboral");
+          alert("Error al agregar la nueva Experiencia Laboral");
+          this.router.navigate(['']);
+        }
+      )
+    } else {
+      const id = this.experiencia.id
+      this.experienciaService.editar(id, this.experiencia).subscribe(
+        data => {
+          this.router.navigate(['']);
+        }, err => {
+          alert("Ha ocurrido un error al modificar la experiencia laboral");
+          this.router.navigate(['']);
         }
       )
     }
   }
 
+  borrar(id: number | undefined) {
+    if (id != undefined) {
+      this.experienciaService.borrar(id).subscribe(
+        data => {
+          this.cargarExperiencia();
+        }, err => {
+          alert("Ha ocurrido un error al eliminar la experiencia laboral");
+        }
+      )
+    }
+  }
 
-  closeResult: string = '';
-  /**
-   * Write code on Method
-   *
-   * @return response()
-   */
-   open(content:any, exp: Experiencia) {
+  open(content: any) {
+    /*if (!tipo) {
+      this.seleccionarExp(exp);
+      this.isNew = false;
+    } else {
+      this.nombreExp = '';
+      this.descripcion= '';
+      const expe = new Experiencia(this.nombreExp, this.descripcion);
+      this.isNew = true;
+    }*/
 
-    this.xx(exp);
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
-  } 
-     
-  /**
-   * Write code on Method
-   *
-   * @return response()
-   */
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
       return 'by clicking on a backdrop';
     } else {
-      return  `with: ${reason}`;
+      return `with: ${reason}`;
     }
   }
 
